@@ -1,0 +1,73 @@
+Packages Used:
+==============
+- csv
+- gensim
+- subprocess
+- nltk
+- re
+
+How to run the code:
+====================
+
+1. Preprocessing (preprocess.py)
+
+This script performs preprocessing of the tweet from the tweet file input.
+
+- input file: You have to modify the input file in preprocess.py
+- output file: You have to modify the output file path in preprocess.py
+
+****************************************************************************************************************
+MUST: Please do not rename the output file. We have to keep it 0.txt for the Biterm topic model code
+written by author to run without a segmentation fault.
+****************************************************************************************************************
+
+Steps:
+
+1. Open preprocess.py in an editor
+2. Modify the inputFile and output file path
+3. Make sure you have all the required packages
+4. Then execute using "python preprocess.py"
+
+2. Topic Modeling (topicmodel.py)
+
+This script performs topic modeling using two methods namely LDA and Biterm topic modeling.
+
+- input file: You have to modify the input file path in topicmodel.py. The input file is the output of preprocess.py.
+- output files:
+
+Steps:
+
+1. Open topicmodel.py in an editor
+
+
+3. Main (main.py)
+
+Calls the preprocessor and then performs topic modeling.
+
+ - input
+ - output
+
+ Steps:
+
+ 1. Open main.py in an editor
+
+
+
+Explanation of Algorithms:
+==========================
+
+1. Preprocessing:
+
+This script is used to clean the tweet text. It removes any URLs, Trailing hash tags (does this by tokenizing a sentence
+and hence deleting hash from the end until you hit a non-hashtagged string), @ symbol for names and also HTML tags (used BeautifulSoup
+package to remove HTML tags).
+
+Basically, it opens the CSV file, reads only the tweet_id and the text and ignores rest of the columns from the dataset.
+Performs preprocessing as mentioned above and then write the {tweet_id, text} pair to an output file.
+
+2. Topic Modeling:
+
+
+References:
+===========
+http://stackoverflow.com/questions/29786985/whats-the-disadvantage-of-lda-for-short-texts
