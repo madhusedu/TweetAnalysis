@@ -12,12 +12,14 @@ from nltk.tokenize import TweetTokenizer
 # method to perform processing of text
 # it internally calls methods to perform cleaning and normalization of text for us
 def processText(text):
+    global wordCtr
     text = removeURLs(text)
     text = removeAtSymbol(text)
     words = tokenize(text)
-    text = removeTrailingHashTags(words)
-    text = removeStopWords(words)
+    words = removeTrailingHashTags(words)
+    words = removeStopWords(words)
     text = " ".join(words)
+    wordCtr += len(words)
     return text
 
 # method to remove URLs using a regex
@@ -77,5 +79,8 @@ def readAndProcessText(inputFileName, outputFileName):
                 outputFile.write("\n")
         outputFile.close()
     inputFile.close()
+    return wordCtr
+
+wordCtr = 0
 
 # end

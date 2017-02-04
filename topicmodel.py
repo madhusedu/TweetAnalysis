@@ -39,8 +39,8 @@ def performLdaTopicModeling(topics, words, inputFileName):
 
 # method to perform topic modeling using Biterm topic modeling
 # It executes a script that reads the data, learns, infers topics and finally display them
-def biTermTopicModeling():
-    subprocess.call(['./runBiterm.sh'])
+def biTermTopicModeling(noTopics, wordCt, inputDir, outputDir, pathToOnlineBTM):
+    subprocess.call(['./runBiterm.sh', str(noTopics), str(wordCt), inputDir, outputDir, pathToOnlineBTM])
 
 
 # End

@@ -7,14 +7,21 @@
 from preprocess import readAndProcessText
 from topicmodel import performLdaTopicModeling, biTermTopicModeling
 
+dataSetFile = '../Homework2_data.csv'
+preprocessedOutputFile = './data/0.txt'
+
 print "Performing read and preprocessing"
-readAndProcessText('../Homework2_data.csv', './data/0.txt')
+wordCt = readAndProcessText(dataSetFile, preprocessedOutputFile)
 
 noWords = 3
 noTopics = 3
 
 print "Performing LDA topic modeling"
-performLdaTopicModeling(noTopics, noWords, './data/0.txt')
+performLdaTopicModeling(noTopics, noWords, preprocessedOutputFile)
+
+inputDir = './data/'
+outputDir = './output/'
+pathToOnlineBTM = 'OnlineBTM'
 
 print "Performing Biterm topic modeling"
-biTermTopicModeling()
+biTermTopicModeling(noTopics, wordCt, inputDir, outputDir, pathToOnlineBTM)
