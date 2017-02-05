@@ -6,7 +6,7 @@
 
 import csv
 import re
-from nltk.corpus import stopwords
+from normalizr import Normalizr
 from nltk.tokenize import TweetTokenizer
 
 # method to perform processing of text
@@ -17,8 +17,8 @@ def processText(text):
     text = removeAtSymbol(text)
     words = tokenize(text)
     words = removeTrailingHashTags(words)
-    words = removeStopWords(words)
     text = " ".join(words)
+    text = normalize(text)
     wordCtr += len(words)
     return text
 
@@ -55,13 +55,37 @@ def removeTrailingHashTags(words):
         index -= 1
     return words
 
-# method to remove stop words
-# load the standard stopword dictionary
-def removeStopWords(words):
+# method to load the normalization dictionary
+def loadNormalizationDictionary(dictionaryFile):
+    dictionary = {}
+    with open(dictionaryFile) as dictFile:
+        reader = csv.reader(dictFile)
+        for row in reader:
+            dictionary[row[0]] = row[1]
+    dictFile.close()
+    return dictionary
+
+# method to perform normalization
+# here, we remove stop words, accet marks, emojis, puntuation and extra white spaces
+# we also replace OOV words by using a dictionary
+def normalize(text):
+    normalizr = Normalizr(language='en')
+    normalizations = [
+        'remove_stop_words',
+        'remove_accent_marks',
+        ('replace_emojis', {'replacement': ' '}),
+        ('replace_punctuation', {'replacement': ' '}),
+        'remove_extra_whitespaces'
+    ]
+    text = normalizr.normalize(text, normalizations)
+    words = tokenize(text)
     for word in words:
-        if word in stopwords.words('english'):
-            words.remove(word)
-    return words
+        if word in dictionary:
+            text = text.replace(word, dictionary[word])
+        elif len(word) == 1:
+            text = text.replace(word, "")
+    return text
+
 
 # open the csv file for read and write
 # for each row, perform the preprocessing on the text
@@ -82,5 +106,7 @@ def readAndProcessText(inputFileName, outputFileName):
     return wordCtr
 
 wordCtr = 0
+dictionary = {}
+dictionary = loadNormalizationDictionary('Dictionary.csv')
 
 # end
